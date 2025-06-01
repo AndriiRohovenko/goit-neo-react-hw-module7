@@ -1,11 +1,7 @@
-import { useEffect } from 'react';
 import styles from './ContactList.module.css';
 import Contact from '../Contact/Contact';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  fetchContactsThunk,
-  deleteContactThunk,
-} from '../../redux/operations/contactsOps';
+import { deleteContactThunk } from '../../redux/operations/contactsOps';
 import { selectLoading, selectError } from '../../redux/contactsSlice';
 
 import { selectFilteredContacts } from '../../redux/contactsSlice';
@@ -16,10 +12,6 @@ function ContactList() {
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
   const error = useSelector(selectError);
-
-  useEffect(() => {
-    dispatch(fetchContactsThunk());
-  }, [dispatch]);
 
   const handleDeleteAction = id => {
     dispatch(deleteContactThunk(id));
