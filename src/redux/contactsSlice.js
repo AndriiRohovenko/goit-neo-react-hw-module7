@@ -3,7 +3,7 @@ import {
   fetchContactsThunk,
   addContactThunk,
   deleteContactThunk,
-} from './operations/contactsOps';
+} from './contactsOps';
 import { selectNameFilter } from './filtersSlice';
 
 const handlePending = state => {

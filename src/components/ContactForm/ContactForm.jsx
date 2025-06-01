@@ -3,7 +3,7 @@ import { useId } from 'react';
 import styles from './ContactForm.module.css';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { addContactThunk } from '../../redux/operations/contactsOps';
+import { addContactThunk } from '../../redux/contactsOps';
 
 function ContactForm() {
   const defaultObj = { name: '', number: '' };
