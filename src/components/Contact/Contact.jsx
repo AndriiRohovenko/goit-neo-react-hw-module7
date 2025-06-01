@@ -2,12 +2,12 @@ import styles from './Contact.module.css';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoPerson } from 'react-icons/io5';
 import { useDispatch } from 'react-redux';
-import { deleteContact } from '../../redux/contactsSlice';
+import { deleteContactThunk } from '../../redux/operations/contactsOps';
 
 function Contact({ contactId, name, number }) {
   const dispatch = useDispatch();
   const handleDeleteAction = () => {
-    dispatch(deleteContact(contactId));
+    dispatch(deleteContactThunk(contactId));
   };
 
   return (
