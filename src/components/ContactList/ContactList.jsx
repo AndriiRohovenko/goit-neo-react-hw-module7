@@ -1,19 +1,29 @@
+import { useEffect } from 'react';
 import styles from './ContactList.module.css';
 import Contact from '../Contact/Contact';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
 import {
   fetchContactsThunk,
   deleteContactThunk,
 } from '../../redux/operations/contactsOps';
+import {
+  selectContacts,
+  selectLoading,
+  selectError,
+} from '../../redux/contactsSlice';
+import { selectNameFilter } from '../../redux/filtersSlice';
 
 function ContactList() {
-  const contactsData = useSelector(state => state.contacts.items);
-  const filterData = useSelector(state => state.filters.filterByName.name);
+  const contactsData = useSelector(selectContacts);
+  const filterData = useSelector(selectNameFilter);
 
   const dispatch = useDispatch();
-  // const isLoading = useSelector(state => state.contacts.isLoading);
-  // const error = useSelector(state => state.contacts.error);
+  const isLoading = useSelector(selectLoading);
+  const error = useSelector(selectError);
+
+  useEffect(() => {
+    dispatch(fetchContactsThunk());
+  }, [dispatch]);
 
   const foundContacts = () => {
     return contactsData.filter(item =>
@@ -25,22 +35,28 @@ function ContactList() {
 
   const handleDeleteAction = id => {
     dispatch(deleteContactThunk(id));
-    dispatch(fetchContactsThunk());
   };
 
   return (
     <>
-      <ul className={styles.contactListWrapper}>
-        {contacts.map(contact => (
-          <li key={contact.id}>
-            <Contact
-              onDelete={() => handleDeleteAction(contact.id)}
-              name={contact.name}
-              number={contact.number}
-            />
-          </li>
-        ))}
-      </ul>
+      <div>
+        {isLoading && !error && (
+          <p className={styles.message}>Request in progress...</p>
+        )}
+
+        {error && <p className={styles.error}>Error: {error}</p>}
+        <ul className={styles.contactListWrapper}>
+          {contacts.map(contact => (
+            <li key={contact.id}>
+              <Contact
+                onDelete={() => handleDeleteAction(contact.id)}
+                name={contact.name}
+                number={contact.number}
+              />
+            </li>
+          ))}
+        </ul>
+      </div>
     </>
   );
 }
