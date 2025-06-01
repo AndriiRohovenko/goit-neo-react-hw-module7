@@ -6,16 +6,12 @@ import {
   fetchContactsThunk,
   deleteContactThunk,
 } from '../../redux/operations/contactsOps';
-import {
-  selectContacts,
-  selectLoading,
-  selectError,
-} from '../../redux/contactsSlice';
-import { selectNameFilter } from '../../redux/filtersSlice';
+import { selectLoading, selectError } from '../../redux/contactsSlice';
+
+import { selectFilteredContacts } from '../../redux/contactsSlice';
 
 function ContactList() {
-  const contactsData = useSelector(selectContacts);
-  const filterData = useSelector(selectNameFilter);
+  const filteredContacts = useSelector(selectFilteredContacts);
 
   const dispatch = useDispatch();
   const isLoading = useSelector(selectLoading);
@@ -24,14 +20,6 @@ function ContactList() {
   useEffect(() => {
     dispatch(fetchContactsThunk());
   }, [dispatch]);
-
-  const foundContacts = () => {
-    return contactsData.filter(item =>
-      item.name.toLowerCase().includes(filterData)
-    );
-  };
-
-  const contacts = foundContacts();
 
   const handleDeleteAction = id => {
     dispatch(deleteContactThunk(id));
@@ -46,7 +34,7 @@ function ContactList() {
 
         {error && <p className={styles.error}>Error: {error}</p>}
         <ul className={styles.contactListWrapper}>
-          {contacts.map(contact => (
+          {filteredContacts.map(contact => (
             <li key={contact.id}>
               <Contact
                 onDelete={() => handleDeleteAction(contact.id)}
