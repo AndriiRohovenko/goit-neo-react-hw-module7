@@ -1,15 +1,8 @@
 import styles from './Contact.module.css';
 import { FaPhoneAlt } from 'react-icons/fa';
 import { IoPerson } from 'react-icons/io5';
-import { useDispatch } from 'react-redux';
-import { deleteContactThunk } from '../../redux/operations/contactsOps';
 
-function Contact({ contactId, name, number }) {
-  const dispatch = useDispatch();
-  const handleDeleteAction = () => {
-    dispatch(deleteContactThunk(contactId));
-  };
-
+function Contact({ onDelete, name, number }) {
   return (
     <>
       <div className={styles.contactContainer}>
@@ -23,7 +16,7 @@ function Contact({ contactId, name, number }) {
             <p>{number}</p>
           </div>
         </div>
-        <button className={styles.deleteBtn} onClick={handleDeleteAction}>
+        <button className={styles.deleteBtn} onClick={onDelete}>
           Delete
         </button>
       </div>

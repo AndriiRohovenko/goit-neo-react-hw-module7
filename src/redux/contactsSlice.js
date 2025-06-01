@@ -43,9 +43,9 @@ const contactsSlice = createSlice({
       .addCase(deleteContactThunk.fulfilled, (state, action) => {
         const index = state.items.findIndex(task => task.id === action.payload);
         state.items.splice(index, 1);
-      });
+      })
+      .addCase(deleteContactThunk.rejected, handleRejected);
   },
 });
 
-export const { addContact, deleteContact } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;
